@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
@@ -58,11 +58,11 @@ module.exports = {
       chunks: ['style', 'main'],
       chunksSortMode: 'manual',
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: './src/assets', to: 'assets' },
-      ],
-    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     { from: './src/assets', to: 'assets' },
+    //   ],
+    // }),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),
