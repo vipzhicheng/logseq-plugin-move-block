@@ -1,4 +1,4 @@
-# logseq-plugin-copy-ref-to-journal
+# Logseq Plugin Copy Ref To Journal
 
 A Logseq plugin help you copy any page blocks ref to today's journal page, very useful for task management case.
 
