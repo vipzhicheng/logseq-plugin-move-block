@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
@@ -8,7 +8,6 @@ const EslintWebpackPlugin = require('eslint-webpack-plugin');
 module.exports = {
   entry: {
     main: './src/main.ts',
-    style: './src/style.scss',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -55,14 +54,15 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      chunks: ['style', 'main'],
+      chunks: ['main'],
       chunksSortMode: 'manual',
     }),
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     { from: './src/assets', to: 'assets' },
-    //   ],
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: './src/icon.png', to: 'icon.png' },
+        { from: './package.json', to: 'package.json' },
+      ],
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),

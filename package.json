@@ -2,7 +2,7 @@
   "name": "logseq-plugin-copy-ref-to-journal",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "dist/index.html",
+  "main": "index.html",
   "logseq": {
     "icon": "./icon.png",
     "id": "_btkyl73sb"
