@@ -40,6 +40,9 @@ async function createPageIfNotExist(pageName: string) {
 const handler = async (e: any) => {
   const block = await logseq.Editor.getBlock(e.uuid);
   const config = await logseq.App.getUserConfigs();
+  if (!block?.properties?.id) {
+    await logseq.Editor.upsertBlockProperty(e.uuid, 'id', e.uuid);
+  }
 
   if (block && block.content) {
     const todayTitle = format(new Date(), config.preferredDateFormat);
