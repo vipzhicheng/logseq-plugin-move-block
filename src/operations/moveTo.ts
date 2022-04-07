@@ -1,7 +1,9 @@
 import '@logseq/libs';
 import { useTargetStore } from '@/stores/target';
+import { getSettings } from '@/common/funcs';
 
 export default () => {
+  const keyBindings = getSettings('keyBindings');
   const handler = async () => {
     const targetStore = useTargetStore();
     targetStore.open();
@@ -16,7 +18,7 @@ export default () => {
       label: 'Move block',
       keybinding: {
         mode: 'global',
-        binding: 'mod+shift+m',
+        binding: keyBindings.moveBlock,
       },
     },
     handler

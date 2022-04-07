@@ -11,6 +11,10 @@ type Destination = {
   page: string;
 };
 const processBlock = async (block: BlockEntity, destination: Destination) => {
+  if (!block || !block.content || /^\s+$/gm.test(block.content)) {
+    logseq.App.showMsg('Cannot move empty block');
+    return false;
+  }
   const config = await logseq.App.getUserConfigs();
   const { to, action, journal, after, page } = destination;
   let targetPage;
@@ -28,6 +32,10 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
       targetPage = page;
       break;
     case 'journal':
+      if (!journal) {
+        logseq.App.showMsg('Journal should not be empty');
+      }
+      // TODO validate the journal
       targetPage = format(new Date(journal), config.preferredDateFormat);
       break;
   }
@@ -65,11 +73,21 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
       await logseq.Editor.updateBlock(srcBlock.uuid, newBlockContent);
       targetBlock = srcBlock;
     }
+  } else {
+    logseq.App.showMsg('Target page empty, block movement failed!');
+    return false;
   }
 
   if (action === 'cut_content') {
-    await logseq.Editor.removeBlock(block.uuid);
+    await logseq.Editor.updateBlock(block.uuid, ``);
   } else if (action === 'cut_content_and_keep_ref') {
+    if (!targetBlock?.properties?.id) {
+      await logseq.Editor.upsertBlockProperty(
+        targetBlock.uuid,
+        'id',
+        targetBlock.uuid
+      );
+    }
     await logseq.Editor.updateBlock(block.uuid, `((${targetBlock.uuid}))`);
   }
 
@@ -97,33 +115,34 @@ export const useTargetStore = defineStore('target', {
           [?page :block/journal? false]
         ]
       `);
-      console.log('pages', pages);
       this.pages = pages.map(page => page[0]);
     },
     open() {
       this.visible = true;
     },
-    // close() {
-    //   this.v;
-    // },
     hide() {
       logseq.hideMainUI({
         restoreEditingCursor: true,
       });
     },
     async submit() {
-      console.log(this.destination);
       const { to, action, journal, after, page } = this.destination;
       const selected = await logseq.Editor.getSelectedBlocks();
       let processed;
       if (selected && selected.length > 1) {
         for (let block of selected) {
           processed = await processBlock(block, this.destination);
+          if (processed === false) {
+            return;
+          }
         }
       } else {
         const block = await logseq.Editor.getCurrentBlock();
         if (block) {
           processed = await processBlock(block, this.destination);
+          if (processed === false) {
+            return;
+          }
         }
       }
 

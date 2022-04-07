@@ -1,5 +1,39 @@
 import '@logseq/libs';
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin';
+import hotkeys from 'hotkeys-js';
+import { useTargetStore } from '@/stores/target';
+
+const settingsVersion = 'v1';
+export const defaultSettings = {
+  keyBindings: {
+    moveBlock: 'mod+shift+m',
+  },
+  settingsVersion,
+  disabled: false,
+};
+
+export type DefaultSettingsType = typeof defaultSettings;
+
+export const initSettings = () => {
+  let settings = logseq.settings;
+
+  const shouldUpdateSettings =
+    !settings || settings.settingsVersion != defaultSettings.settingsVersion;
+
+  if (shouldUpdateSettings) {
+    settings = defaultSettings;
+    logseq.updateSettings(settings);
+  }
+};
+
+export const getSettings = (
+  key: string | undefined,
+  defaultValue: any = undefined
+) => {
+  const settings = logseq.settings;
+  const merged = Object.assign(defaultSettings, settings);
+  return key ? (merged[key] ? merged[key] : defaultValue) : merged;
+};
 
 export const getLastBlock = async function (
   pageName: string
@@ -36,8 +70,17 @@ export const createPageIfNotExist = async function (
         {
           createFirstBlock: true,
           redirect: false,
+          journal: isJournal,
         }
       );
     }
   }
 };
+
+export async function setHotkeys() {
+  hotkeys('enter', () => {
+    const targetStore = useTargetStore();
+    targetStore.submit();
+    return false;
+  });
+}

@@ -9,9 +9,11 @@ declare module 'vue' {
     NDatePicker: typeof import('naive-ui')['NDatePicker']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
+    NIcon: typeof import('naive-ui')['NIcon']
     NModal: typeof import('naive-ui')['NModal']
     NRadio: typeof import('naive-ui')['NRadio']
     NRadioGroup: typeof import('naive-ui')['NRadioGroup']
+    NTooltip: typeof import('naive-ui')['NTooltip']
     Target: typeof import('./src/components/Target.vue')['default']
   }
 }

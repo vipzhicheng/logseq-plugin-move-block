@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useTargetStore } from "@/stores/target";
 import fuzzy from "fuzzy";
+import QuestionCircleRegular from "@/icons/QuestionCircleRegular.svg";
 const targetStore = useTargetStore();
 const pageFilter = computed(() => {
   return fuzzy
@@ -36,6 +37,7 @@ const pageFilter = computed(() => {
       label-placement="left"
       :model="targetStore.destination"
       size="small"
+      @submit="targetStore.submit"
     >
       <n-form-item label="To" path="to">
         <n-radio-group
@@ -56,7 +58,7 @@ const pageFilter = computed(() => {
       </n-form-item>
       <n-form-item
         v-if="targetStore.destination.to === 'journal'"
-        label="Select journal"
+        label=" "
         path="journal"
       >
         <n-date-picker
@@ -64,12 +66,13 @@ const pageFilter = computed(() => {
           value-format="yyyy-MM-dd"
           type="date"
           clearable
+          placeholder="Select journal"
         />
       </n-form-item>
 
       <n-form-item
         v-if="targetStore.destination.to === 'page'"
-        label="Search page"
+        label=" "
         path="page"
       >
         <n-auto-complete
@@ -78,6 +81,7 @@ const pageFilter = computed(() => {
             autocomplete: 'disabled',
           }"
           :options="pageFilter"
+          placeholder="Input page name"
         />
       </n-form-item>
 
@@ -95,8 +99,16 @@ const pageFilter = computed(() => {
             </n-radio>
           </div>
           <div>
-            <n-radio key="cut_content" value="cut_content">
-              Cut content
+            <n-radio key="cut_content" value="cut_content" class="">
+              <span class="">Cut content</span>
+              <n-tooltip trigger="hover" class="">
+                <template #trigger>
+                  <n-icon class="inline-block ml-1">
+                    <QuestionCircleRegular />
+                  </n-icon>
+                </template>
+                Won't delete original block to prevent dead references.
+              </n-tooltip>
             </n-radio>
           </div>
           <div>
