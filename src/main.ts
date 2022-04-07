@@ -28,7 +28,6 @@ async function main() {
     if (!visible) return;
     const targetStore = useTargetStore();
     targetStore.loadPages();
-    targetStore.resetCustomInput();
   });
 }
 

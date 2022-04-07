@@ -155,9 +155,5 @@ export const useTargetStore = defineStore('target', {
         restoreEditingCursor: true,
       });
     },
-    resetCustomInput() {
-      this.destination.journal = null;
-      this.destination.page = '';
-    },
   },
 });
