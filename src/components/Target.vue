@@ -95,13 +95,16 @@ const pageFilter = computed(() => {
             </n-radio>
           </div>
           <div>
-            <n-radio key="move_content" value="move_content">
-              Move content
+            <n-radio key="cut_content" value="cut_content">
+              Cut content
             </n-radio>
           </div>
           <div>
-            <n-radio key="copy_ref_then_swap" value="copy_ref_then_swap">
-              Copy ref then swap
+            <n-radio
+              key="cut_content_and_keep_ref"
+              value="cut_content_and_keep_ref"
+            >
+              Cut content and keep ref
             </n-radio>
           </div>
         </n-radio-group>
