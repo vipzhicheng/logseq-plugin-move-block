@@ -1,8 +1,10 @@
-# Logseq Plugin Copy Ref To Journal
+# Logseq Plugin Move Block
 
-A Logseq plugin help you copy any page blocks ref to today's journal page, very useful for task management case.
+[![Github All Releases](https://img.shields.io/github/downloads/vipzhicheng/logseq-plugin-move-block/total.svg)](https://github.com/vipzhicheng-starter/logseq-plugin-move-block/releases)
 
-![screencast](./screencast.gif)
+A Logseq plugin to help you manage block movement.
+
+![screenshot](./screenshot.png)
 
 ## How to use it.
 
@@ -29,8 +31,13 @@ At the same time, I have similar thinking about this, but I want to copy ref to 
 
 My code borrowed greatly from two other open source projects as followed, thank you guys.
 
-* [logseq-extract-plugin](https://github.com/sidharth-panwar/logseq-extract-plugin)
-* [logseq-plugin-block-to-page](https://github.com/hyrijk/logseq-plugin-block-to-page)
+- [logseq-extract-plugin](https://github.com/sidharth-panwar/logseq-extract-plugin)
+- [logseq-plugin-block-to-page](https://github.com/hyrijk/logseq-plugin-block-to-page)
+
+## Buy me a coffee
+
+If my plugin solve your situation a little bit and you will, you can choose to buy me a coffee via [this](https://www.buymeacoffee.com/vipzhicheng) and [this](https://afdian.net/@vipzhicheng).
 
 ## Licence
+
 MIT
