@@ -39,7 +39,7 @@ const pageFilter = computed(() => {
       size="small"
       @submit="targetStore.submit"
     >
-      <n-form-item label="To" path="to">
+      <n-form-item label="To:" path="to">
         <n-radio-group
           v-model:value="targetStore.destination.to"
           name="radiogroup"
@@ -85,13 +85,23 @@ const pageFilter = computed(() => {
         />
       </n-form-item>
 
-      <n-form-item label="Action" path="action">
+      <n-form-item label="Action:" path="action">
         <n-radio-group
           v-model:value="targetStore.destination.action"
           name="radiogroup"
         >
           <div>
-            <n-radio key="copy_ref" value="copy_ref"> Copy ref </n-radio>
+            <n-radio key="copy_ref" value="copy_ref">
+              Copy ref
+              <n-tooltip trigger="hover" class="">
+                <template #trigger>
+                  <n-icon class="inline-block ml-1 -mb-[2px]">
+                    <QuestionCircleRegular />
+                  </n-icon>
+                </template>
+                A block ref is an unique ID to reference the block
+              </n-tooltip>
+            </n-radio>
           </div>
           <div>
             <n-radio key="copy_content" value="copy_content">
@@ -103,7 +113,7 @@ const pageFilter = computed(() => {
               <span class="">Cut content</span>
               <n-tooltip trigger="hover" class="">
                 <template #trigger>
-                  <n-icon class="inline-block ml-1">
+                  <n-icon class="inline-block ml-1 -mb-[2px]">
                     <QuestionCircleRegular />
                   </n-icon>
                 </template>
@@ -116,18 +126,18 @@ const pageFilter = computed(() => {
               key="cut_content_and_keep_ref"
               value="cut_content_and_keep_ref"
             >
-              Cut content and keep ref
+              Cut content and keep ref to target
             </n-radio>
           </div>
         </n-radio-group>
       </n-form-item>
-      <n-form-item label="After" path="after">
+      <n-form-item label="After:" path="after">
         <n-radio-group
           v-model:value="targetStore.destination.after"
           name="radiogroup"
         >
           <div>
-            <n-radio key="stay" value="stay"> Stay current page </n-radio>
+            <n-radio key="stay" value="stay"> Stay on current page </n-radio>
           </div>
           <div>
             <n-radio key="jump" value="jump"> Jump to target page </n-radio>
@@ -143,4 +153,9 @@ const pageFilter = computed(() => {
   </n-modal>
 </template>
 
-<style></style>
+<style scopped>
+.n-form-item .n-form-item-label {
+  margin-top: -3px;
+  font-weight: bold;
+}
+</style>

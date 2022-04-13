@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.0.4
+
+- fix: adjust UI style.
+
 ## v0.0.3
 
 - infra: change build tool from Webpack to Vite
