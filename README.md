@@ -6,7 +6,11 @@ A Logseq plugin to help you manage block movement.
 
 ![screenshot](./screenshot.png)
 
-## How to use it.
+## Usage
+
+The default key-binding for the UI is: `mod+shift+m`
+
+## Install
 
 ### Manually
 
