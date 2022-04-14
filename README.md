@@ -1,6 +1,6 @@
 # Logseq Plugin Move Block
 
-[![Github All Releases](https://img.shields.io/github/downloads/vipzhicheng/logseq-plugin-move-block/total.svg)](https://github.com/vipzhicheng-starter/logseq-plugin-move-block/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/vipzhicheng/logseq-plugin-move-block/total.svg)](https://github.com/vipzhicheng/logseq-plugin-move-block/releases)
 
 A Logseq plugin to help you manage block movement.
 
