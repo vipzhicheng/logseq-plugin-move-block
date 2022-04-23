@@ -111,14 +111,6 @@ const pageFilter = computed(() => {
           <div>
             <n-radio key="cut_content" value="cut_content" class="">
               <span class="">Cut content</span>
-              <n-tooltip trigger="hover" class="">
-                <template #trigger>
-                  <n-icon class="inline-block ml-1 -mb-[2px]">
-                    <QuestionCircleRegular />
-                  </n-icon>
-                </template>
-                Won't delete original block to prevent dead references.
-              </n-tooltip>
             </n-radio>
           </div>
           <div>

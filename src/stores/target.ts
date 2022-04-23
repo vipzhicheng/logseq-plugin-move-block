@@ -45,7 +45,7 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
   }
 
   await createPageIfNotExist(targetPage, isJournal);
-  const srcBlock = await getLastBlock(targetPage);
+  const lastBlock = await getLastBlock(targetPage);
   let targetBlock;
 
   let newBlockContent;
@@ -54,41 +54,40 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
       newBlockContent = `((${block.uuid}))`;
       break;
     case 'copy_content':
-    case 'cut_content':
-    case 'cut_content_and_keep_ref':
       newBlockContent = block.content;
       break;
   }
 
-  if (srcBlock) {
-    if (srcBlock.content) {
-      targetBlock = await logseq.Editor.insertBlock(
-        srcBlock.uuid,
-        newBlockContent,
-        {
+  if (lastBlock) {
+    if (['copy_ref', 'copy_content'].includes(action)) {
+      if (lastBlock.content) {
+        targetBlock = await logseq.Editor.insertBlock(
+          lastBlock.uuid,
+          newBlockContent,
+          {
+            sibling: true,
+          }
+        );
+      } else {
+        await logseq.Editor.updateBlock(lastBlock.uuid, newBlockContent);
+        targetBlock = lastBlock;
+      }
+    } else if (['cut_content', 'cut_content_and_keep_ref'].includes(action)) {
+      if (action === 'cut_content_and_keep_ref') {
+        await logseq.Editor.insertBlock(block.uuid, `((${block.uuid}))`, {
+          before: false,
           sibling: true,
-        }
-      );
-    } else {
-      await logseq.Editor.updateBlock(srcBlock.uuid, newBlockContent);
-      targetBlock = srcBlock;
+        });
+      }
+      await logseq.Editor.moveBlock(block.uuid, lastBlock.uuid, {
+        before: false,
+        children: false,
+      });
+      targetBlock = await logseq.Editor.getBlock(block.uuid);
     }
   } else {
     logseq.App.showMsg('Target page empty, block movement failed!');
     return false;
-  }
-
-  if (action === 'cut_content') {
-    await logseq.Editor.updateBlock(block.uuid, ``);
-  } else if (action === 'cut_content_and_keep_ref') {
-    if (!targetBlock?.properties?.id) {
-      await logseq.Editor.upsertBlockProperty(
-        targetBlock.uuid,
-        'id',
-        targetBlock.uuid
-      );
-    }
-    await logseq.Editor.updateBlock(block.uuid, `((${targetBlock.uuid}))`);
   }
 
   return { targetPage, targetBlock };

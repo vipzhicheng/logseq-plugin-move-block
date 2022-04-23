@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.0.5
+
+- fix: optimize cut content action using moveBlock
+
 ## v0.0.4
 
 - fix: adjust UI style.
