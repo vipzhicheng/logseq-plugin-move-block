@@ -1,10 +1,15 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin';
 import { defineStore } from 'pinia';
 import { format } from 'date-fns';
-import { createPageIfNotExist, getLastBlock } from '@/common/funcs';
+import {
+  createPageIfNotExist,
+  getFirstBlock,
+  getLastBlock,
+} from '@/common/funcs';
 
 type Destination = {
   to: string;
+  at: string;
   action: string;
   journal: string | null;
   after: string;
@@ -16,7 +21,7 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
     return false;
   }
   const config = await logseq.App.getUserConfigs();
-  const { to, action, journal, after, page } = destination;
+  const { to, action, journal, after, page, at } = destination;
   let targetPage;
   let isJournal = false;
   switch (to) {
@@ -26,6 +31,16 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
       break;
     case 'contents':
       targetPage = 'contents';
+      break;
+    case 'current_page':
+      let currentPage = await logseq.Editor.getCurrentPage();
+      if (!currentPage) {
+        const currentBlock = await logseq.Editor.getCurrentBlock();
+        if (currentBlock) {
+          currentPage = await logseq.Editor.getPage(currentBlock.page.id);
+        }
+      }
+      targetPage = currentPage.name;
       break;
 
     case 'page':
@@ -45,7 +60,15 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
   }
 
   await createPageIfNotExist(targetPage, isJournal);
-  const lastBlock = await getLastBlock(targetPage);
+  let atBlock;
+
+  if (at === 'bottom') {
+    atBlock = await getLastBlock(targetPage);
+  } else {
+    atBlock = await getFirstBlock(targetPage);
+  }
+
+  await getLastBlock(targetPage);
   let targetBlock;
 
   let newBlockContent;
@@ -58,19 +81,20 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
       break;
   }
 
-  if (lastBlock) {
+  if (atBlock) {
     if (['copy_ref', 'copy_content'].includes(action)) {
-      if (lastBlock.content) {
+      if (atBlock.content) {
         targetBlock = await logseq.Editor.insertBlock(
-          lastBlock.uuid,
+          atBlock.uuid,
           newBlockContent,
           {
+            before: at !== 'bottom',
             sibling: true,
           }
         );
       } else {
-        await logseq.Editor.updateBlock(lastBlock.uuid, newBlockContent);
-        targetBlock = lastBlock;
+        await logseq.Editor.updateBlock(atBlock.uuid, newBlockContent);
+        targetBlock = atBlock;
       }
     } else if (['cut_content', 'cut_content_and_keep_ref'].includes(action)) {
       if (action === 'cut_content_and_keep_ref') {
@@ -79,8 +103,8 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
           sibling: true,
         });
       }
-      await logseq.Editor.moveBlock(block.uuid, lastBlock.uuid, {
-        before: false,
+      await logseq.Editor.moveBlock(block.uuid, atBlock.uuid, {
+        before: at !== 'bottom',
         children: false,
       });
       targetBlock = await logseq.Editor.getBlock(block.uuid);
@@ -98,6 +122,7 @@ export const useTargetStore = defineStore('target', {
     visible: false,
     destination: {
       to: 'today',
+      at: 'bottom',
       action: 'copy_ref',
       journal: null,
       after: 'stay',

@@ -35,6 +35,16 @@ export const getSettings = (
   return key ? (merged[key] ? merged[key] : defaultValue) : merged;
 };
 
+export const getFirstBlock = async function (
+  pageName: string
+): Promise<null | BlockEntity> {
+  const blocks = await logseq.Editor.getPageBlocksTree(pageName);
+  if (blocks.length === 0) {
+    return null;
+  }
+  return blocks[0];
+};
+
 export const getLastBlock = async function (
   pageName: string
 ): Promise<null | BlockEntity> {

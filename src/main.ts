@@ -3,7 +3,6 @@ import '@logseq/libs';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
-import copyRefToContents from './operations/copyRefToContents';
 import copyRefToJournal from './operations/copyRefToJournal';
 import moveTo from './operations/moveTo';
 import { useTargetStore } from '@/stores/target';
@@ -14,7 +13,7 @@ import { initSettings, setHotkeys } from './common/funcs';
 async function main() {
   initSettings();
   copyRefToJournal();
-  copyRefToContents();
+  // copyRefToContents();
 
   const app = createApp(App);
   app.use(createPinia());

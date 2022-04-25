@@ -51,6 +51,11 @@ const pageFilter = computed(() => {
             <n-radio key="contents" value="contents"> Contents </n-radio>
           </div>
           <div>
+            <n-radio key="current_page" value="current_page">
+              Current page
+            </n-radio>
+          </div>
+          <div>
             <n-radio key="journal" value="journal"> A journal </n-radio>
           </div>
           <div><n-radio key="page" value="page"> A page </n-radio></div>
@@ -83,6 +88,20 @@ const pageFilter = computed(() => {
           :options="pageFilter"
           placeholder="Input page name"
         />
+      </n-form-item>
+
+      <n-form-item label="At:" path="at">
+        <n-radio-group
+          v-model:value="targetStore.destination.at"
+          name="radiogroup"
+        >
+          <div>
+            <n-radio key="bottom" value="bottom"> Bottom </n-radio>
+          </div>
+          <div>
+            <n-radio key="top" value="top"> Top </n-radio>
+          </div>
+        </n-radio-group>
       </n-form-item>
 
       <n-form-item label="Action:" path="action">
