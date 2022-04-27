@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.0.7
+
+- fix: timezone issue
+
 ## v0.0.6
 
 - fix: remove copy ref to contents context command, not that useful.

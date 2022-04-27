@@ -1,6 +1,6 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin';
 import { defineStore } from 'pinia';
-import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   createPageIfNotExist,
   getFirstBlock,
@@ -26,7 +26,11 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
   let isJournal = false;
   switch (to) {
     case 'today':
-      targetPage = format(new Date(), config.preferredDateFormat);
+      targetPage = formatInTimeZone(
+        new Date(),
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+        config.preferredDateFormat
+      );
       isJournal = true;
       break;
     case 'contents':
@@ -51,7 +55,11 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
         logseq.App.showMsg('Journal should not be empty');
       }
       // TODO validate the journal
-      targetPage = format(new Date(journal), config.preferredDateFormat);
+      targetPage = formatInTimeZone(
+        new Date(journal),
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+        config.preferredDateFormat
+      );
       break;
   }
 
