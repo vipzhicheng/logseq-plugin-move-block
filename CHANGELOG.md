@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.0.8
+
+- feat: add block embed action
+
 ## v0.0.7
 
 - fix: timezone issue

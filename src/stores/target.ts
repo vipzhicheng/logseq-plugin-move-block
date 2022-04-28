@@ -84,13 +84,18 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
     case 'copy_ref':
       newBlockContent = `((${block.uuid}))`;
       break;
+
+    case 'copy_embed':
+      newBlockContent = `{{embed ((${block.uuid}))}}`;
+      break;
+
     case 'copy_content':
       newBlockContent = block.content;
       break;
   }
 
   if (atBlock) {
-    if (['copy_ref', 'copy_content'].includes(action)) {
+    if (['copy_ref', 'copy_embed', 'copy_content'].includes(action)) {
       if (atBlock.content) {
         targetBlock = await logseq.Editor.insertBlock(
           atBlock.uuid,

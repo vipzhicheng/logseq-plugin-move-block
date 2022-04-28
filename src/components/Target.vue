@@ -111,7 +111,7 @@ const pageFilter = computed(() => {
         >
           <div>
             <n-radio key="copy_ref" value="copy_ref">
-              Copy ref
+              Copy block ref
               <n-tooltip trigger="hover" class="">
                 <template #trigger>
                   <n-icon class="inline-block ml-1 -mb-[2px]">
@@ -120,6 +120,11 @@ const pageFilter = computed(() => {
                 </template>
                 A block ref is an unique ID to reference the block
               </n-tooltip>
+            </n-radio>
+          </div>
+          <div>
+            <n-radio key="copy_embed" value="copy_embed">
+              Copy block embed
             </n-radio>
           </div>
           <div>
