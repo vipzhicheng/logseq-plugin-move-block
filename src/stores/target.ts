@@ -56,7 +56,7 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
       }
       // TODO validate the journal
       targetPage = formatInTimeZone(
-        new Date(journal),
+        journal,
         Intl.DateTimeFormat().resolvedOptions().timeZone,
         config.preferredDateFormat
       );
