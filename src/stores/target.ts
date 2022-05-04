@@ -169,7 +169,7 @@ export const useTargetStore = defineStore('target', {
       if (selected && selected.length > 1) {
         for (let block of selected) {
           processed = await processBlock(block, this.destination);
-          if (processed === false) {
+          if (!processed) {
             return;
           }
         }
@@ -177,14 +177,14 @@ export const useTargetStore = defineStore('target', {
         const block = await logseq.Editor.getCurrentBlock();
         if (block) {
           processed = await processBlock(block, this.destination);
-          if (processed === false) {
+          if (!processed) {
             return;
           }
         }
       }
 
-      const { targetPage, targetBlock } = processed;
       if (after === 'jump') {
+        const { targetPage, targetBlock } = processed;
         await logseq.Editor.scrollToBlockInPage(targetPage, targetBlock.uuid);
       }
 

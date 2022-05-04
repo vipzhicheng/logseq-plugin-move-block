@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.0.10
+
+- fix: try to fix console error
+
 ## v0.0.9
 
 - fix: timezone issue
