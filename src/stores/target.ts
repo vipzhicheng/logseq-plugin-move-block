@@ -183,9 +183,11 @@ export const useTargetStore = defineStore('target', {
         }
       }
 
-      if (after === 'jump') {
+      if (after === 'jump' && processed) {
         const { targetPage, targetBlock } = processed;
-        await logseq.Editor.scrollToBlockInPage(targetPage, targetBlock.uuid);
+        if (targetPage && targetBlock) {
+          await logseq.Editor.scrollToBlockInPage(targetPage, targetBlock.uuid);
+        }
       }
 
       logseq.hideMainUI({

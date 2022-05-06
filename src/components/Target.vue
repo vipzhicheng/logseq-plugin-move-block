@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTargetStore } from "@/stores/target";
+import { version } from '../../package.json'
 import fuzzy from "fuzzy";
 import QuestionCircleRegular from "@/icons/QuestionCircleRegular.svg";
 const targetStore = useTargetStore();
@@ -16,34 +17,16 @@ const pageFilter = computed(() => {
 </script>
 
 <template>
-  <n-modal
-    v-model:show="targetStore.visible"
-    :close-on-esc="true"
-    :closable="true"
-    :mask-closable="true"
-    :auto-focus="true"
-    :show-icon="false"
-    :on-close="targetStore.hide"
-    :on-esc="targetStore.hide"
-    :on-mask-click="targetStore.hide"
-    transform-origin="center"
-    preset="dialog"
-  >
-    <template #header> Move block </template>
+  <n-modal v-model:show="targetStore.visible" :close-on-esc="true" :closable="true" :mask-closable="true"
+    :auto-focus="true" :show-icon="false" :on-close="targetStore.hide" :on-esc="targetStore.hide"
+    :on-mask-click="targetStore.hide" transform-origin="center" preset="dialog">
+    <template #header> Move block <span class="text-gray-300 text-xs inline-block mt-1 ml-2">v{{ version
+    }}</span></template>
 
-    <n-form
-      ref="formRef"
-      :label-width="120"
-      label-placement="left"
-      :model="targetStore.destination"
-      size="small"
-      @submit="targetStore.submit"
-    >
+    <n-form ref="formRef" :label-width="120" label-placement="left" :model="targetStore.destination" size="small"
+      @submit="targetStore.submit">
       <n-form-item label="To:" path="to">
-        <n-radio-group
-          v-model:value="targetStore.destination.to"
-          name="radiogroup"
-        >
+        <n-radio-group v-model:value="targetStore.destination.to" name="radiogroup">
           <div>
             <n-radio key="today" value="today"> Today's journal </n-radio>
           </div>
@@ -58,43 +41,24 @@ const pageFilter = computed(() => {
           <div>
             <n-radio key="journal" value="journal"> A journal </n-radio>
           </div>
-          <div><n-radio key="page" value="page"> A page </n-radio></div>
+          <div>
+            <n-radio key="page" value="page"> A page </n-radio>
+          </div>
         </n-radio-group>
       </n-form-item>
-      <n-form-item
-        v-if="targetStore.destination.to === 'journal'"
-        label=" "
-        path="journal"
-      >
-        <n-date-picker
-          v-model:formatted-value="targetStore.destination.journal"
-          value-format="yyyy-MM-dd"
-          type="date"
-          clearable
-          placeholder="Select journal"
-        />
+      <n-form-item v-if="targetStore.destination.to === 'journal'" label=" " path="journal">
+        <n-date-picker v-model:formatted-value="targetStore.destination.journal" value-format="yyyy-MM-dd" type="date"
+          clearable placeholder="Select journal" />
       </n-form-item>
 
-      <n-form-item
-        v-if="targetStore.destination.to === 'page'"
-        label=" "
-        path="page"
-      >
-        <n-auto-complete
-          v-model:value="targetStore.destination.page"
-          :input-props="{
-            autocomplete: 'disabled',
-          }"
-          :options="pageFilter"
-          placeholder="Input page name"
-        />
+      <n-form-item v-if="targetStore.destination.to === 'page'" label=" " path="page">
+        <n-auto-complete v-model:value="targetStore.destination.page" :input-props="{
+          autocomplete: 'disabled',
+        }" :options="pageFilter" placeholder="Input page name" />
       </n-form-item>
 
       <n-form-item label="At:" path="at">
-        <n-radio-group
-          v-model:value="targetStore.destination.at"
-          name="radiogroup"
-        >
+        <n-radio-group v-model:value="targetStore.destination.at" name="radiogroup">
           <div>
             <n-radio key="bottom" value="bottom"> Bottom </n-radio>
           </div>
@@ -105,10 +69,7 @@ const pageFilter = computed(() => {
       </n-form-item>
 
       <n-form-item label="Action:" path="action">
-        <n-radio-group
-          v-model:value="targetStore.destination.action"
-          name="radiogroup"
-        >
+        <n-radio-group v-model:value="targetStore.destination.action" name="radiogroup">
           <div>
             <n-radio key="copy_ref" value="copy_ref">
               Copy block ref
@@ -138,20 +99,14 @@ const pageFilter = computed(() => {
             </n-radio>
           </div>
           <div>
-            <n-radio
-              key="cut_content_and_keep_ref"
-              value="cut_content_and_keep_ref"
-            >
+            <n-radio key="cut_content_and_keep_ref" value="cut_content_and_keep_ref">
               Cut content and keep ref to target
             </n-radio>
           </div>
         </n-radio-group>
       </n-form-item>
       <n-form-item label="After:" path="after">
-        <n-radio-group
-          v-model:value="targetStore.destination.after"
-          name="radiogroup"
-        >
+        <n-radio-group v-model:value="targetStore.destination.after" name="radiogroup">
           <div>
             <n-radio key="stay" value="stay"> Stay on current page </n-radio>
           </div>

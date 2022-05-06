@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.0.11
+
+- fix: try to fix console error.
+- feat: add a version indicator.
+- infra: upgrade deps.
+
 ## v0.0.10
 
 - fix: try to fix console error
