@@ -4,8 +4,11 @@ import { getSettings } from '@/common/funcs';
 
 export default () => {
   const keyBindings = getSettings('keyBindings');
-  const handler = async () => {
+  const handler = async ({ uuid }) => {
     const targetStore = useTargetStore();
+    if (uuid) {
+      targetStore.setFallbackUUID(uuid);
+    }
     targetStore.open();
     logseq.showMainUI({
       autoFocus: true,

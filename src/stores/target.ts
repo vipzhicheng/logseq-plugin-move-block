@@ -132,6 +132,7 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
 
 export const useTargetStore = defineStore('target', {
   state: () => ({
+    fallbackUUID: '',
     visible: false,
     destination: {
       to: 'today',
@@ -144,6 +145,12 @@ export const useTargetStore = defineStore('target', {
     pages: [],
   }),
   actions: {
+    setFallbackUUID(uuid: string) {
+      this.fallbackUUID = uuid;
+    },
+    clearFallbackUUID(uuid: string) {
+      this.fallbackUUID = '';
+    },
     async loadPages() {
       const pages = await logseq.DB.datascriptQuery(`
         [:find ?page-name (pull ?page [*])
@@ -174,7 +181,10 @@ export const useTargetStore = defineStore('target', {
           }
         }
       } else {
-        const block = await logseq.Editor.getCurrentBlock();
+        let block = await logseq.Editor.getCurrentBlock();
+        if (!block) {
+          block = await logseq.Editor.getBlock(this.fallbackUUID);
+        }
         if (block) {
           processed = await processBlock(block, this.destination);
           if (!processed) {
@@ -190,6 +200,7 @@ export const useTargetStore = defineStore('target', {
         }
       }
 
+      this.clearFallbackUUID();
       logseq.hideMainUI({
         restoreEditingCursor: true,
       });

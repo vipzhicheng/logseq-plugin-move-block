@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.0.12
+
+- fix: try to fix context menu command not work
 ## v0.0.11
 
 - fix: try to fix console error.
