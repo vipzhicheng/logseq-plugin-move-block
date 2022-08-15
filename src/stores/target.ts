@@ -1,6 +1,7 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin';
 import { defineStore } from 'pinia';
 import { formatInTimeZone } from 'date-fns-tz';
+import { addDays, subDays } from 'date-fns';
 import {
   createPageIfNotExist,
   getFirstBlock,
@@ -28,6 +29,22 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
     case 'today':
       targetPage = formatInTimeZone(
         new Date(),
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+        config.preferredDateFormat
+      );
+      isJournal = true;
+      break;
+    case 'yesterday':
+      targetPage = formatInTimeZone(
+        subDays(new Date(), 1),
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+        config.preferredDateFormat
+      );
+      isJournal = true;
+      break;
+    case 'tomorrow':
+      targetPage = formatInTimeZone(
+        addDays(new Date(), 1),
         Intl.DateTimeFormat().resolvedOptions().timeZone,
         config.preferredDateFormat
       );
@@ -109,12 +126,27 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
         await logseq.Editor.updateBlock(atBlock.uuid, newBlockContent);
         targetBlock = atBlock;
       }
-    } else if (['cut_content', 'cut_content_and_keep_ref'].includes(action)) {
+    } else if (
+      [
+        'cut_content',
+        'cut_content_and_keep_ref',
+        'cut_content_and_keep_embed',
+      ].includes(action)
+    ) {
       if (action === 'cut_content_and_keep_ref') {
         await logseq.Editor.insertBlock(block.uuid, `((${block.uuid}))`, {
           before: false,
           sibling: true,
         });
+      } else if (action === 'cut_content_and_keep_embed') {
+        await logseq.Editor.insertBlock(
+          block.uuid,
+          `{{embed ((${block.uuid}))}}`,
+          {
+            before: false,
+            sibling: true,
+          }
+        );
       }
       await logseq.Editor.moveBlock(block.uuid, atBlock.uuid, {
         before: at !== 'bottom',

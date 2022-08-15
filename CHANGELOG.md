@@ -1,8 +1,16 @@
 # Changelog
 
+## v0.0.13
+
+- fix: remove version indicator in the title bar.
+- feat: add tomorrow, yesterday option.
+- feat: add history panel for quick selection.
+- feat: add "Cut content and keep embed to target"
+
 ## v0.0.12
 
 - fix: try to fix context menu command not work
+
 ## v0.0.11
 
 - fix: try to fix console error.
