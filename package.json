@@ -1,6 +1,6 @@
 {
   "name": "logseq-plugin-move-block",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "license": "MIT",
   "main": "index.html",
   "logseq": {
