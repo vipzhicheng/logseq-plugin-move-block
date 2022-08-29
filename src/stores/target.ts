@@ -107,7 +107,10 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
       break;
 
     case 'copy_content':
-      newBlockContent = block.content;
+      newBlockContent = block.content
+        .split('\n')
+        .filter((line: string) => line.indexOf('id:: ') === -1)
+        .join('\n');
       break;
   }
 
@@ -175,8 +178,37 @@ export const useTargetStore = defineStore('target', {
       page: '',
     },
     pages: [],
+    history: [],
   }),
   actions: {
+    addHistory(data) {
+      if (this.history.length > 0) {
+        const lastHistory = this.history[this.history.length - 1];
+        if (
+          lastHistory.to === data.to &&
+          lastHistory.journal === data.journal &&
+          lastHistory.page === data.page &&
+          lastHistory.at === data.at &&
+          lastHistory.action === data.action &&
+          lastHistory.after === data.after
+        ) {
+          return;
+        }
+      }
+      this.history.push({
+        to: data.to,
+        journal: data.journal,
+        page: data.page,
+        at: data.at,
+        action: data.action,
+        after: data.after,
+      });
+
+      if (this.history.length > 15) {
+        this.history.shift();
+      }
+    },
+
     setFallbackUUID(uuid: string) {
       this.fallbackUUID = uuid;
     },
@@ -202,7 +234,8 @@ export const useTargetStore = defineStore('target', {
       });
     },
     async submit() {
-      const { to, action, journal, after, page } = this.destination;
+      const { to, action, journal, after, page, at } = this.destination;
+      this.addHistory(this.destination);
       const selected = await logseq.Editor.getSelectedBlocks();
       let processed;
       if (selected && selected.length > 1) {

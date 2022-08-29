@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import cc from "change-case-all";
 import { useTargetStore } from "@/stores/target";
 import fuzzy from "fuzzy";
 import QuestionCircleRegular from "@/icons/QuestionCircleRegular.svg";
@@ -13,6 +14,15 @@ const pageFilter = computed(() => {
       };
     });
 });
+
+const selectHistory = (o) => {
+  targetStore.destination.to = o.to;
+  targetStore.destination.at = o.at;
+  targetStore.destination.page = o.page;
+  targetStore.destination.journal = o.journal;
+  targetStore.destination.after = o.after;
+  targetStore.destination.action = o.action;
+};
 </script>
 
 <template>
@@ -196,9 +206,20 @@ const pageFilter = computed(() => {
             </div>
           </template>
           <div class="font-bold mb-2">History</div>
-          <div v-for="o in 4" :key="o" class="text item">
-            {{ "List item " + o }}
-          </div>
+          <ul class="list-disc list-inside h-[500px] overflow-y-auto">
+            <li v-for="o in targetStore.history" :key="o" class="">
+              <span @click="selectHistory(o)" class="cursor-pointer">
+                <b>{{ cc.sentenceCase(o.action) }}</b> to
+                <b
+                  >{{ o.to }}
+                  {{ o.to === "page" ? o.page : "" }}
+                  {{ o.to === "journal" ? o.journal : "" }}</b
+                >
+                at <b>{{ o.at }}</b> then <b>{{ o.after }}</b
+                >.
+              </span>
+            </li>
+          </ul>
         </el-card>
       </div>
     </div>
@@ -218,6 +239,6 @@ const pageFilter = computed(() => {
 }
 
 .n-dialog.n-modal {
-  width: 600px;
+  width: 800px;
 }
 </style>
