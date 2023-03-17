@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     NModal: typeof import('naive-ui')['NModal']
     NRadio: typeof import('naive-ui')['NRadio']
     NRadioGroup: typeof import('naive-ui')['NRadioGroup']
+    NTooltip: typeof import('naive-ui')['NTooltip']
     Target: typeof import('./src/components/Target.vue')['default']
   }
 }

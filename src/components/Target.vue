@@ -50,9 +50,14 @@ const addCurrentToHistory = () => {
   >
     <template #header>
       Move block
-      <n-button class="button ml-2" text @click="addCurrentToHistory">
-        <n-icon size="16"><CirclePlus /></n-icon>
-      </n-button>
+      <n-tooltip trigger="hover">
+        <template #trigger>
+          <n-button class="button ml-2" text @click="addCurrentToHistory">
+            <n-icon size="16"><CirclePlus /></n-icon>
+          </n-button>
+        </template>
+        Add scenario to history
+      </n-tooltip>
     </template>
 
     <div class="flex flex-row">
@@ -208,9 +213,15 @@ const addCurrentToHistory = () => {
       <div class="border-l border-dashed pl-4 w-1/2">
         <div class="history-card">
           <div class="font-bold mb-2 flex flex-row justify-start items-center">
-            History<n-button class="button ml-2" text @click="clearHistory">
-              <n-icon size="16"><Trash /></n-icon>
-            </n-button>
+            History
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button class="button ml-2" text @click="clearHistory">
+                  <n-icon size="16"><Trash /></n-icon>
+                </n-button>
+              </template>
+              Clear history
+            </n-tooltip>
           </div>
           <ul class="list-disc list-inside h-[500px] overflow-y-auto">
             <li v-for="o in targetStore.history" :key="o" class="">
