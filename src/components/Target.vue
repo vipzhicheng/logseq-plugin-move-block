@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import cc from "change-case-all";
+import { Trash, CirclePlus } from "@vicons/tabler";
 import { useTargetStore } from "@/stores/target";
 import fuzzy from "fuzzy";
 import QuestionCircleRegular from "@/icons/QuestionCircleRegular.svg";
@@ -23,6 +24,14 @@ const selectHistory = (o) => {
   targetStore.destination.after = o.after;
   targetStore.destination.action = o.action;
 };
+
+const clearHistory = () => {
+  targetStore.clearHistory();
+};
+
+const addCurrentToHistory = () => {
+  targetStore.addCurrentToHistory();
+};
 </script>
 
 <template>
@@ -39,7 +48,12 @@ const selectHistory = (o) => {
     transform-origin="center"
     preset="dialog"
   >
-    <template #header> Move block </template>
+    <template #header>
+      Move block
+      <n-button class="button ml-2" text @click="addCurrentToHistory">
+        <n-icon size="16"><CirclePlus /></n-icon>
+      </n-button>
+    </template>
 
     <div class="flex flex-row">
       <div>
@@ -49,6 +63,7 @@ const selectHistory = (o) => {
           label-placement="left"
           :model="targetStore.destination"
           size="small"
+          @keyup.enter="targetStore.submit"
           @submit="targetStore.submit"
         >
           <n-form-item label="To:" path="to">
@@ -105,6 +120,7 @@ const selectHistory = (o) => {
             path="page"
           >
             <n-auto-complete
+              clearable
               v-model:value="targetStore.destination.page"
               :input-props="{
                 autocomplete: 'disabled',
@@ -136,14 +152,6 @@ const selectHistory = (o) => {
               <div>
                 <n-radio key="copy_ref" value="copy_ref">
                   Copy block ref
-                  <n-tooltip trigger="hover" class="">
-                    <template #trigger>
-                      <n-icon class="inline-block ml-1 -mb-[2px]">
-                        <QuestionCircleRegular />
-                      </n-icon>
-                    </template>
-                    A block ref is an unique ID to reference the block
-                  </n-tooltip>
                 </n-radio>
               </div>
               <div>
@@ -197,15 +205,13 @@ const selectHistory = (o) => {
         </n-form>
       </div>
 
-      <div>
-        <el-card class="history-card">
-          <template #header>
-            <div class="card-header">
-              <span>History</span>
-              <el-button class="button" text>Clear</el-button>
-            </div>
-          </template>
-          <div class="font-bold mb-2">History</div>
+      <div class="border-l border-dashed pl-4 w-1/2">
+        <div class="history-card">
+          <div class="font-bold mb-2 flex flex-row justify-start items-center">
+            History<n-button class="button ml-2" text @click="clearHistory">
+              <n-icon size="16"><Trash /></n-icon>
+            </n-button>
+          </div>
           <ul class="list-disc list-inside h-[500px] overflow-y-auto">
             <li v-for="o in targetStore.history" :key="o" class="">
               <span @click="selectHistory(o)" class="cursor-pointer">
@@ -220,7 +226,7 @@ const selectHistory = (o) => {
               </span>
             </li>
           </ul>
-        </el-card>
+        </div>
       </div>
     </div>
 

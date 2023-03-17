@@ -181,21 +181,32 @@ export const useTargetStore = defineStore('target', {
     history: [],
   }),
   actions: {
+    addCurrentToHistory() {
+      const { to, action, journal, after, page, at } = this.destination;
+      this.addHistory(this.destination);
+    },
+    clearHistory() {
+      this.history = [];
+    },
     addHistory(data) {
-      if (this.history.length > 0) {
-        const lastHistory = this.history[this.history.length - 1];
+      const findedIndex = this.history.findIndex(item => {
         if (
-          lastHistory.to === data.to &&
-          lastHistory.journal === data.journal &&
-          lastHistory.page === data.page &&
-          lastHistory.at === data.at &&
-          lastHistory.action === data.action &&
-          lastHistory.after === data.after
+          item.to === data.to &&
+          item.journal === data.journal &&
+          item.page === data.page &&
+          item.at === data.at &&
+          item.action === data.action &&
+          item.after === data.after
         ) {
-          return;
+          return true;
         }
+      });
+
+      if (findedIndex !== -1) {
+        this.history.splice(findedIndex, 1);
       }
-      this.history.push({
+
+      this.history.unshift({
         to: data.to,
         journal: data.journal,
         page: data.page,
@@ -205,7 +216,7 @@ export const useTargetStore = defineStore('target', {
       });
 
       if (this.history.length > 15) {
-        this.history.shift();
+        this.history.pop();
       }
     },
 

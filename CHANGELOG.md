@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.0
+
+- feat: make page auto complete clearable
+- feat: make scenario history clearable
+- feat: add scenario to history directly
+- feat: change history order from new to old
+- fix: sometime enter key can not trigger submit
+- infra: upgrade deps.
+
 ## v0.0.13
 
 - fix: remove version indicator in the title bar.
