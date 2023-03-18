@@ -179,11 +179,52 @@ export const useTargetStore = defineStore('target', {
     },
     pages: [],
     history: [],
+    favorites: [],
   }),
   actions: {
-    addCurrentToHistory() {
-      const { to, action, journal, after, page, at } = this.destination;
-      this.addHistory(this.destination);
+    deleteFavorite(index) {
+      this.favorites.splice(index, 1);
+    },
+    addCurrentToFavorites() {
+      this.addFavorite(this.destination);
+    },
+    clearFavorites() {
+      this.favorites = [];
+    },
+    addFavorite(data) {
+      const findedIndex = this.favorites.findIndex(item => {
+        if (
+          item.to === data.to &&
+          item.journal === data.journal &&
+          item.page === data.page &&
+          item.at === data.at &&
+          item.action === data.action &&
+          item.after === data.after
+        ) {
+          return true;
+        }
+      });
+
+      if (findedIndex !== -1) {
+        this.favorites.splice(findedIndex, 1);
+      }
+
+      this.favorites.unshift({
+        to: data.to,
+        journal: data.journal,
+        page: data.page,
+        at: data.at,
+        action: data.action,
+        after: data.after,
+      });
+
+      if (this.favorites.length > 15) {
+        this.favorites.pop();
+      }
+    },
+
+    deleteHistory(index) {
+      this.history.splice(index, 1);
     },
     clearHistory() {
       this.history = [];

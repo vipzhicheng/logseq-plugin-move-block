@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import cc from "change-case-all";
-import { Trash, CirclePlus } from "@vicons/tabler";
+import { Trash, CirclePlus, Plus, Minus } from "@vicons/tabler";
 import { useTargetStore } from "@/stores/target";
 import fuzzy from "fuzzy";
 import QuestionCircleRegular from "@/icons/QuestionCircleRegular.svg";
@@ -28,10 +28,26 @@ const selectHistory = (o) => {
 const clearHistory = () => {
   targetStore.clearHistory();
 };
-
-const addCurrentToHistory = () => {
-  targetStore.addCurrentToHistory();
+const deleteHistory = (k) => {
+  targetStore.deleteHistory(k);
 };
+
+// const addCurrentToHistory = () => {
+//   targetStore.addCurrentToHistory();
+// };
+
+const clearFavorites = () => {
+  targetStore.clearFavorites();
+};
+
+const addCurrentToFavorites = () => {
+  targetStore.addCurrentToFavorites();
+};
+
+const deleteFavorite = (k) => {
+  targetStore.deleteFavorite(k);
+};
+const selectFavorite = selectHistory;
 </script>
 
 <template>
@@ -52,11 +68,11 @@ const addCurrentToHistory = () => {
       Move block
       <n-tooltip trigger="hover">
         <template #trigger>
-          <n-button class="button ml-2" text @click="addCurrentToHistory">
-            <n-icon size="16"><CirclePlus /></n-icon>
+          <n-button class="button ml-2" text @click="addCurrentToFavorites">
+            <n-icon size="16"><Plus /></n-icon>
           </n-button>
         </template>
-        Add scenario to history
+        Add scenario to favorites
       </n-tooltip>
     </template>
 
@@ -211,9 +227,48 @@ const addCurrentToHistory = () => {
       </div>
 
       <div class="border-l border-dashed pl-4 w-1/2">
-        <div class="history-card">
+        <div class="favorites-card border-b border-dashed pb-2">
           <div class="font-bold mb-2 flex flex-row justify-start items-center">
-            History
+            FAVORITES
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button class="button ml-2" text @click="clearFavorites">
+                  <n-icon size="16"><Trash /></n-icon>
+                </n-button>
+              </template>
+              Clear history
+            </n-tooltip>
+          </div>
+          <ul class="overflow-y-auto">
+            <li v-for="(o, k) in targetStore.favorites" :key="k" class="">
+              <span @click="selectFavorite(o)" class="cursor-pointer">
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      class="button mr-2"
+                      text
+                      @click="deleteFavorite(k)"
+                    >
+                      <n-icon size="12"><Minus /></n-icon>
+                    </n-button>
+                  </template>
+                  Delete
+                </n-tooltip>
+                <b>{{ cc.sentenceCase(o.action) }}</b> to
+                <b
+                  >{{ o.to }}
+                  {{ o.to === "page" ? o.page : "" }}
+                  {{ o.to === "journal" ? o.journal : "" }}</b
+                >
+                at <b>{{ o.at }}</b> then <b>{{ o.after }}</b
+                >.
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="history-card pt-2">
+          <div class="font-bold mb-2 flex flex-row justify-start items-center">
+            RECENT
             <n-tooltip trigger="hover">
               <template #trigger>
                 <n-button class="button ml-2" text @click="clearHistory">
@@ -223,8 +278,20 @@ const addCurrentToHistory = () => {
               Clear history
             </n-tooltip>
           </div>
-          <ul class="list-disc list-inside h-[500px] overflow-y-auto">
-            <li v-for="o in targetStore.history" :key="o" class="">
+          <ul class="list-disc list-inside overflow-y-auto">
+            <li
+              v-for="(o, k) in targetStore.history"
+              :key="k"
+              class="flex flex-row gap-2 items-center"
+            >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button class="button" text @click="deleteHistory(k)">
+                    <n-icon size="16"><Minus /></n-icon>
+                  </n-button>
+                </template>
+                Delete
+              </n-tooltip>
               <span @click="selectHistory(o)" class="cursor-pointer">
                 <b>{{ cc.sentenceCase(o.action) }}</b> to
                 <b

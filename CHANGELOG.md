@@ -2,10 +2,12 @@
 
 ## v0.1.0
 
+- feat: add move block page icon
+- feat: add favorites list
+- feat: add scenario to favorites directly
 - feat: make page auto complete clearable
-- feat: make scenario history clearable
-- feat: add scenario to history directly
-- feat: change history order from new to old
+- feat: make scenario history and favorites clearable and deletable
+- feat: change history and favorites order from new to old
 - fix: sometime enter key can not trigger submit
 - infra: upgrade deps.
 
