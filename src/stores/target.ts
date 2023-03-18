@@ -165,6 +165,8 @@ const processBlock = async (block: BlockEntity, destination: Destination) => {
   return { targetPage, targetBlock };
 };
 
+const assetStorage = logseq.Assets.makeSandboxStorage();
+
 export const useTargetStore = defineStore('target', {
   state: () => ({
     fallbackUUID: '',
@@ -180,18 +182,60 @@ export const useTargetStore = defineStore('target', {
     pages: [],
     history: [],
     favorites: [],
+    defaultFavorites: [
+      {
+        to: 'today',
+        journal: null,
+        page: '',
+        at: 'bottom',
+        action: 'copy_ref',
+        after: 'stay',
+      },
+      {
+        to: 'contents',
+        journal: null,
+        page: '',
+        at: 'bottom',
+        action: 'copy_ref',
+        after: 'stay',
+      },
+      {
+        to: 'current_page',
+        journal: null,
+        page: '',
+        at: 'top',
+        action: 'copy_ref',
+        after: 'stay',
+      },
+    ],
   }),
   actions: {
+    async init() {
+      let favoritesStorageExists = await assetStorage.hasItem('favorites.json');
+
+      if (!favoritesStorageExists) {
+        this.favorites = this.defaultFavorites;
+      } else {
+        let favoritesStorage = await assetStorage.getItem('favorites.json');
+        favoritesStorage = favoritesStorage ? JSON.parse(favoritesStorage) : [];
+        if (favoritesStorage.length === 0) {
+          // default fav
+          this.favorites = this.defaultFavorites;
+        } else {
+          this.favorites = favoritesStorage;
+        }
+      }
+    },
     deleteFavorite(index) {
       this.favorites.splice(index, 1);
     },
-    addCurrentToFavorites() {
-      this.addFavorite(this.destination);
+    async addCurrentToFavorites() {
+      await this.addFavorite(this.destination);
     },
     clearFavorites() {
       this.favorites = [];
     },
-    addFavorite(data) {
+    async addFavorite(data) {
       const findedIndex = this.favorites.findIndex(item => {
         if (
           item.to === data.to &&
@@ -221,6 +265,11 @@ export const useTargetStore = defineStore('target', {
       if (this.favorites.length > 15) {
         this.favorites.pop();
       }
+
+      await assetStorage.setItem(
+        'favorites.json',
+        JSON.stringify(this.favorites)
+      );
     },
 
     deleteHistory(index) {

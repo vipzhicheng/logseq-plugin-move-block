@@ -23,6 +23,9 @@ async function main() {
 
   setHotkeys();
 
+  const targetStore = useTargetStore();
+  await targetStore.init();
+
   logseq.on('ui:visible:changed', visible => {
     if (!visible) return;
     const targetStore = useTargetStore();
