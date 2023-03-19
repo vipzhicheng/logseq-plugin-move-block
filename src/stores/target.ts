@@ -225,15 +225,38 @@ export const useTargetStore = defineStore('target', {
           this.favorites = favoritesStorage;
         }
       }
+
+      let historyStorageExists = await assetStorage.hasItem('history.json');
+
+      if (!historyStorageExists) {
+        this.history = [];
+      } else {
+        let historyStorage = await assetStorage.getItem('history.json');
+        historyStorage = historyStorage ? JSON.parse(historyStorage) : [];
+        if (historyStorage.length === 0) {
+          // default fav
+          this.history = [];
+        } else {
+          this.history = historyStorage;
+        }
+      }
     },
-    deleteFavorite(index) {
+    async saveFavorites() {
+      await assetStorage.setItem(
+        'favorites.json',
+        JSON.stringify(this.favorites)
+      );
+    },
+    async deleteFavorite(index) {
       this.favorites.splice(index, 1);
+      await this.saveFavorites();
     },
     async addCurrentToFavorites() {
       await this.addFavorite(this.destination);
     },
-    clearFavorites() {
+    async clearFavorites() {
       this.favorites = [];
+      await this.saveFavorites();
     },
     async addFavorite(data) {
       const findedIndex = this.favorites.findIndex(item => {
@@ -266,19 +289,21 @@ export const useTargetStore = defineStore('target', {
         this.favorites.pop();
       }
 
-      await assetStorage.setItem(
-        'favorites.json',
-        JSON.stringify(this.favorites)
-      );
+      await this.saveFavorites();
     },
 
-    deleteHistory(index) {
+    async saveHistory() {
+      await assetStorage.setItem('history.json', JSON.stringify(this.history));
+    },
+    async deleteHistory(index) {
       this.history.splice(index, 1);
+      await this.saveHistory();
     },
-    clearHistory() {
+    async clearHistory() {
       this.history = [];
+      await this.saveHistory();
     },
-    addHistory(data) {
+    async addHistory(data) {
       const findedIndex = this.history.findIndex(item => {
         if (
           item.to === data.to &&
@@ -308,6 +333,8 @@ export const useTargetStore = defineStore('target', {
       if (this.history.length > 15) {
         this.history.pop();
       }
+
+      await this.saveHistory();
     },
 
     setFallbackUUID(uuid: string) {
@@ -336,7 +363,7 @@ export const useTargetStore = defineStore('target', {
     },
     async submit() {
       const { to, action, journal, after, page, at } = this.destination;
-      this.addHistory(this.destination);
+      await this.addHistory(this.destination);
       const selected = await logseq.Editor.getSelectedBlocks();
       let processed;
       if (selected && selected.length > 1) {

@@ -226,7 +226,9 @@ const selectFavorite = selectHistory;
         </n-form>
       </div>
 
-      <div class="border-l border-dashed pl-4 w-1/2">
+      <div
+        class="border-l border-dashed pl-4 w-1/2 h-[500px] overflow-x-auto overflow-y-scroll"
+      >
         <div class="favorites-card border-b border-dashed pb-2">
           <div class="font-bold mb-2 flex flex-row justify-start items-center">
             FAVORITES
@@ -256,7 +258,7 @@ const selectFavorite = selectHistory;
                 </n-tooltip>
                 <b>{{ cc.sentenceCase(o.action) }}</b> to
                 <b
-                  >{{ o.to }}
+                  >{{ cc.noCase(o.to) }}
                   {{ o.to === "page" ? o.page : "" }}
                   {{ o.to === "journal" ? o.journal : "" }}</b
                 >

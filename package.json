@@ -5,7 +5,7 @@
   "main": "index.html",
   "logseq": {
     "icon": "./icon.png",
-    "id": "logseq-plugin-move-block",
+    "id": "logseq-move-block",
     "title": "Move Block"
   },
   "scripts": {
