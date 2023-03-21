@@ -8,6 +8,8 @@
 - feat: make page auto complete clearable
 - feat: make scenario history and favorites clearable and deletable
 - feat: change history and favorites order from new to old
+- feat: make history and favorites permanent in assets
+- feat: favorites support drag and drop
 - fix: sometime enter key can not trigger submit
 - infra: upgrade deps.
 

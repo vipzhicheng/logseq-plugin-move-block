@@ -3,7 +3,7 @@ import cc from "change-case-all";
 import { Trash, CirclePlus, Plus, Minus } from "@vicons/tabler";
 import { useTargetStore } from "@/stores/target";
 import fuzzy from "fuzzy";
-import QuestionCircleRegular from "@/icons/QuestionCircleRegular.svg";
+import draggable from "vuedraggable";
 const targetStore = useTargetStore();
 const pageFilter = computed(() => {
   return fuzzy
@@ -48,6 +48,10 @@ const deleteFavorite = (k) => {
   targetStore.deleteFavorite(k);
 };
 const selectFavorite = selectHistory;
+
+const handleDragAndDrop = () => {
+  targetStore.saveFavorites();
+};
 </script>
 
 <template>
@@ -231,7 +235,7 @@ const selectFavorite = selectHistory;
       >
         <div class="favorites-card border-b border-dashed pb-2">
           <div class="font-bold mb-2 flex flex-row justify-start items-center">
-            FAVORITES
+            Favorites
             <n-tooltip trigger="hover">
               <template #trigger>
                 <n-button class="button ml-2" text @click="clearFavorites">
@@ -241,9 +245,13 @@ const selectFavorite = selectHistory;
               Clear history
             </n-tooltip>
           </div>
-          <ul class="overflow-y-auto">
-            <li v-for="(o, k) in targetStore.favorites" :key="k" class="">
-              <span @click="selectFavorite(o)" class="cursor-pointer">
+          <draggable
+            v-model="targetStore.favorites"
+            @change="handleDragAndDrop"
+            class="overflow-y-auto"
+          >
+            <template #item="{ element: o, index: k }">
+              <div @click="selectFavorite(o)" class="cursor-pointer">
                 <n-tooltip trigger="hover">
                   <template #trigger>
                     <n-button
@@ -264,13 +272,13 @@ const selectFavorite = selectHistory;
                 >
                 at <b>{{ o.at }}</b> then <b>{{ o.after }}</b
                 >.
-              </span>
-            </li>
-          </ul>
+              </div>
+            </template>
+          </draggable>
         </div>
         <div class="history-card pt-2">
           <div class="font-bold mb-2 flex flex-row justify-start items-center">
-            RECENT
+            Recent
             <n-tooltip trigger="hover">
               <template #trigger>
                 <n-button class="button ml-2" text @click="clearHistory">
@@ -280,16 +288,12 @@ const selectFavorite = selectHistory;
               Clear history
             </n-tooltip>
           </div>
-          <ul class="list-disc list-inside overflow-y-auto">
-            <li
-              v-for="(o, k) in targetStore.history"
-              :key="k"
-              class="flex flex-row gap-2 items-center"
-            >
+          <div class="overflow-y-auto">
+            <div v-for="(o, k) in targetStore.history" :key="k" class="">
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <n-button class="button" text @click="deleteHistory(k)">
-                    <n-icon size="16"><Minus /></n-icon>
+                  <n-button class="button mr-2" text @click="deleteHistory(k)">
+                    <n-icon size="12"><Minus /></n-icon>
                   </n-button>
                 </template>
                 Delete
@@ -304,8 +308,8 @@ const selectFavorite = selectHistory;
                 at <b>{{ o.at }}</b> then <b>{{ o.after }}</b
                 >.
               </span>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

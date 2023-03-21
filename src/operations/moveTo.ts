@@ -5,6 +5,7 @@ import { getSettings } from '@/common/funcs';
 export default () => {
   const keyBindings = getSettings('keyBindings');
   const openMoveBlockWindow = async ({ uuid }) => {
+    await logseq.Editor.exitEditingMode(true);
     const targetStore = useTargetStore();
 
     if (uuid) {
