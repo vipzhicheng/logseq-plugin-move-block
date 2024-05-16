@@ -1,0 +1,17 @@
+{
+  "name": "logseq-plugin-move-block",
+  "version": "1.0.0",
+  "description": "Move blocks to anywhere in Logseq",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "vitepress": "^1.0.1",
+    "vue": "^3.4.21"
+  }
+}
