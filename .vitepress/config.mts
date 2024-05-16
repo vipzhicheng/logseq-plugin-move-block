@@ -17,7 +17,7 @@ export default defineConfig({
         },
         nav: [
           { text: "Getting Started", link: "/guide/getting-started" },
-          { text: "Changelog", link: "https://github.com/vipzhicheng/logseq-plugin-move-block/changelog.md" },
+          { text: "Changelog", link: "https://github.com/vipzhicheng/logseq-plugin-move-block/blob/main/changelog.md" },
         ],
         sidebar: {
           "/guide/": [
@@ -47,7 +47,7 @@ export default defineConfig({
 
         nav: [
           { text: "快速开始", link: "/cn/guide/getting-started" },
-          { text: "变更日志", link: "https://github.com/vipzhicheng/logseq-plugin-move-block/changelog.md" },
+          { text: "变更日志", link: "https://github.com/vipzhicheng/logseq-plugin-move-block/blob/main/changelog.md" },
         ],
         sidebar: {
           "/cn/guide/": [
