@@ -2,11 +2,11 @@
 
 ## v1.0.0
 
-- feat: add cut with children actions
 - feat: journal action date-picker respect edn config `start-of-week`
 - feat: add move to block uuid, support uuid with embed or ref format.
 - feat: convert it to paid plugin for better maintainance.
 - fix: move multi blocks will not fail fast, but ignore empty blocks.
+- fix: cut hierarchial blocks tree.
 - chore: upgrade deps
 
 ## v0.1.0
