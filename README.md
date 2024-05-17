@@ -5,8 +5,8 @@
 A Logseq plugin to help you manage block movement.
 
 ![screenshot](./screenshot.png)
-https://github.com/vipzhicheng/logseq-plugin-move-block/blob/main/assets/moveblock.mp4
 
+![](./assets/moveblock.mp4)
 
 **Note: Move Block is a paid plugin now. I charge a fee for a few of features in this plugin. The main features are still free to use.**
 
