@@ -4,17 +4,15 @@
 
 A Logseq plugin to help you manage block movement.
 
-![screenshot](./screenshot.png)
+https://github.com/vipzhicheng/logseq-plugin-move-block/assets/1209538/f6832d79-92a7-4113-86d8-163f4adb7f7f
 
-![](./assets/moveblock.mp4)
-
-**Note: Move Block is a paid plugin now. I charge a fee for a few of features in this plugin. The main features are still free to use.**
+**Note: Move Block is a paid plugin now. I charge a fee for a few of the features in this plugin. The main features are still free to use.**
 
 ## Usage
 
 The default key-binding for the UI is: `mod+shift+m`
 
-You can learn more for the official [documentation](https://www.vipzhicheng.com/logseq-plugin-move-block/)
+You can learn more from the official [documentation](https://www.vipzhicheng.com/logseq-plugin-move-block/)
 
 ## Install
 
@@ -23,9 +21,9 @@ You can learn more for the official [documentation](https://www.vipzhicheng.com/
 1. Git clone this repo
 2. Run `npm install`
 3. Run `npm run build`
-4. In logseq, click `Plugins` which is in right top dropdown menu
-5. Click `Load unpacked plugin` button and select the dist directory of this plugin directory
-6. If plugin not work, you can try to disable and enable the plugin by clicking the switch button on Plugins page.
+4. In Logseq, click `Plugins` which is in the right top dropdown menu
+5. Click the `Load unpacked plugin` button and select the dist directory of this plugin directory
+6. If the plugin does not work, you can try to disable and enable the plugin by clicking the switch button on the Plugins page.
 
 ### Marketplace
 
@@ -40,4 +38,4 @@ Part of my inspiration comes from the following plugins:
 
 ## Notice
 
-If you want to move multiple selected blocks at once, you must use the shortcut way. The icon top right corner is not recommended. Because it will lose the selected blocks state.
+If you want to move multiple selected blocks at once, you must use the shortcut way. The icon top right corner is not recommended. Because it will lose the selected block state.
