@@ -1,0 +1,1 @@
+import{_ as a,c as e,o as i,a5 as t}from"./chunks/framework.ksaAMBJ7.js";const m=JSON.parse('{"title":"Changelog","description":"","frontmatter":{},"headers":[],"relativePath":"changelog.md","filePath":"changelog.md"}'),o={name:"changelog.md"},l=t("",27),r=[l];function n(d,c,h,s,u,f){return i(),e("div",null,r)}const b=a(o,[["render",n]]);export{m as __pageData,b as default};
