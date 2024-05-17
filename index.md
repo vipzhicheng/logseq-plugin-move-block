@@ -30,6 +30,6 @@ features:
 
 <hr />
 
-## A screenshot
+## A screencast
 
-![](/assets/screenshot.png)
+<video controls="controls" src="/assets/screencast/demo.mp4" />

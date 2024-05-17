@@ -30,6 +30,6 @@ features:
 
 <hr />
 
-## 截图
+## 示例
 
-![](/assets/screenshot.png)
+<video controls="controls" src="/assets/screencast/demo.mp4" />
