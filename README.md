@@ -6,9 +6,13 @@ A Logseq plugin to help you manage block movement.
 
 ![screenshot](./screenshot.png)
 
+**Note: Move Block is a paid plugin now. I charge a fee for a few of features in this plugin. The main features are still free to use.**
+
 ## Usage
 
 The default key-binding for the UI is: `mod+shift+m`
+
+You can learn more for the official [documentation](https://www.vipzhicheng.com/logseq-plugin-move-block/)
 
 ## Install
 
